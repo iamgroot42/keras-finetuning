@@ -26,10 +26,13 @@ nb_classes = len(tags)
 
 sample_count = len(y)
 train_size = sample_count * 4 // 5
+n_chan = 3
 X_train = X[:train_size]
+X_train = X_train.reshape(X_train.shape[0], n, n, n_chan)
 y_train = y[:train_size]
 Y_train = np_utils.to_categorical(y_train, nb_classes)
 X_test  = X[train_size:]
+X_test = X_test.reshape(X_test.shape[0], n, n, n_chan)
 y_test  = y[train_size:]
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 

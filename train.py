@@ -1,5 +1,4 @@
 import sys
-import json
 
 import numpy as np
 from collections import defaultdict
@@ -29,7 +28,7 @@ heavy_augmentation = True
 
 data_directory, model_file_prefix = sys.argv[1:]
 
-print "loading dataset"
+print "Loading dataset"
 
 X, y, tags = dataset.dataset(data_directory, n)
 nb_classes = len(tags)
@@ -37,10 +36,13 @@ nb_classes = len(tags)
 
 sample_count = len(y)
 train_size = sample_count * 4 // 5
+n_chan = 3
 X_train = X[:train_size]
+X_train = X_train.reshape(X_train.shape[0], n, n, n_chan)
 y_train = y[:train_size]
 Y_train = np_utils.to_categorical(y_train, nb_classes)
 X_test  = X[train_size:]
+X_test = X_test.reshape(X_test.shape[0], n, n, n_chan)
 y_test  = y[train_size:]
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 
@@ -79,14 +81,14 @@ def evaluate(model, vis_filename=None):
     Y_pred = model.predict(X_test, batch_size=batch_size)
     y_pred = np.argmax(Y_pred, axis=1)
 
-    accuracy = float(np.sum(y_test==y_pred)) / len(y_test)
-    print "accuracy:", accuracy
+    accuracy = float(np.sum(y_test == y_pred)) / len(y_test)
+    print "Accuracy:", accuracy
     
     confusion = np.zeros((nb_classes, nb_classes), dtype=np.int32)
     for (predicted_index, actual_index, image) in zip(y_pred, y_test, X_test):
         confusion[predicted_index, actual_index] += 1
     
-    print "rows are predicted classes, columns are actual classes"
+    print "Rows are predicted classes, columns are actual classes"
     for predicted_index, predicted_tag in enumerate(tags):
         print predicted_tag[:7],
         for actual_index, actual_tag in enumerate(tags):
@@ -116,14 +118,14 @@ def evaluate(model, vis_filename=None):
         vis_image[:, ::image_size * bucket_size] = 0
         scipy.misc.imsave(vis_filename, vis_image)
 
-print "loading original inception model"
+print "Loading original inception model"
 
 model = net.build_model(nb_classes)
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=["accuracy"])
 
 # train the model on the new data for a few epochs
 
-print "training the newly added dense layers"
+print "Training the newly added dense layers"
 
 model.fit_generator(datagen.flow(X_train, Y_train, batch_size=batch_size, shuffle=True),
             samples_per_epoch=X_train.shape[0],
@@ -154,10 +156,10 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossent
 # we train our model again (this time fine-tuning the top 2 inception blocks
 # alongside the top Dense layers
 
-print "fine-tuning top 2 inception blocks alongside the top dense layers"
+print "Fine-tuning top 2 inception blocks alongside the top dense layers"
 
 for i in range(1,11):
-    print "mega-epoch %d/10" % i
+    print "Mega-epoch %d/10" % i
     model.fit_generator(datagen.flow(X_train, Y_train, batch_size=batch_size, shuffle=True),
             samples_per_epoch=X_train.shape[0],
             nb_epoch=nb_phase_two_epoch,
