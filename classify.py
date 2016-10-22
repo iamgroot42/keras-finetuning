@@ -9,6 +9,9 @@ import numpy as np
 # https://github.com/tensorflow/tensorflow/issues/1541
 import scipy.misc
 
+import tensorflow as tf
+tf.python.control_flow_ops = tf
+
 from keras.utils import np_utils
 
 import dataset

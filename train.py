@@ -8,6 +8,9 @@ from collections import defaultdict
 # https://github.com/tensorflow/tensorflow/issues/1541
 import scipy.misc
 
+import tensorflow as tf
+tf.python.control_flow_ops = tf
+
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import SGD
 from keras import backend as K
