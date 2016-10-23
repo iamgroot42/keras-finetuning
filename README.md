@@ -1,10 +1,10 @@
-# Training an InceptionV3-based image classifier with your own dataset
+# Fine-tuning an InceptionV3-based image classifier with your own dataset
 
 Based on the **Fine-tune InceptionV3 on a new set of classes** example in https://keras.io/applications/
 
 ## Dependencies
 
-Very latest (>=1.0.8 from source) Keras, scipy, pillow. opencv2 is only used in the toy webcam app.
+Very latest (>=1.0.8 from source) Keras, scipy, pillow.
 
 ## Training
 
@@ -19,7 +19,7 @@ data_dir/classname2/*.*
 
 It depends on the domain, but a few hundred images per class can already give good results.
 
-Run the training:
+#####Run the training:
 
 ```
 python train.py data_dir model

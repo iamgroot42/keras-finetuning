@@ -18,10 +18,8 @@ import dataset
 import net
 
 np.random.seed(1337)
-
 n = 224
 batch_size = 128
-
 data_directory, = sys.argv[1:]
 
 X, y, tags = dataset.dataset(data_directory, n)
