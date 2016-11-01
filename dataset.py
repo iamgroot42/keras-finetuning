@@ -91,7 +91,7 @@ def per_class_count(base_dir, n=224):
 	tag_counts = {}
 
 	for class_index, class_name in enumerate(tags):
-        useful_image_count = 0
+		useful_image_count = 0
 		filenames = d[class_name]
 		for filename in filenames:
 			try:
