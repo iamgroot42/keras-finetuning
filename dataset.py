@@ -37,6 +37,7 @@ def dataset(base_dir, n):
 	y = []
 
 	for class_index, class_name in enumerate(tags):
+		print class_index, class_name
 		filenames = d[class_name]
 		for filename in filenames:
 			processed_image_count += 1
@@ -58,6 +59,7 @@ def dataset(base_dir, n):
 				useful_image_count += 1
 			except:
 				continue
+	exit()
 	print "Processed %d, used %d" % (processed_image_count, useful_image_count)
 
 	X = np.array(X).astype(np.float32)
