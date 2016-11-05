@@ -22,7 +22,7 @@ It depends on the domain, but a few hundred images per class can already give go
 #####Run the training:
 
 ```
-python train.py data_dir model
+python test_gen.py data_dir model
 ```
 
 The standard output provides information about the state of the training, and the current accuracy.

@@ -59,7 +59,7 @@ class CustomGenerator:
 		self.train_file_names = split_these[:train_size]
 		self.test_file_names = split_these[train_size:]
 
-	def process_image(file):
+	def process_image(self, file):
 		img = scipy.misc.imread(file)
 		height, width, chan = img.shape
 		assert chan == 3
@@ -74,7 +74,7 @@ class CustomGenerator:
 		img = scipy.misc.imresize(img, size=(self.n, self.n), interp='bilinear')
 		return img
 
-	def model_format(X, y):
+	def model_format(self, X, y):
 		X_, y_ = X, y
 		X_ = np.array(X_).astype(np.float32)
 		X_ = X_.transpose((0, 3, 1, 2))
@@ -101,14 +101,12 @@ class CustomGenerator:
 					X.append(self.process_image(file))
 					y.append(self.file_name_mapping[file])
 				except Exception, e:
-					pass
+					print e
 				if len(y) == batch_size:
 					X_, y_ = self.model_format(X, y)
 					X = []
 					y = []
-					print "Starting yield"
 					yield X_, y_
-					print "Ending yield"
 
 
 if __name__ == "__main__":

@@ -75,7 +75,7 @@ data_directory, model_file_prefix = sys.argv[1:]
 cg = batch_gen.CustomGenerator(n)
 cg.ready_data(data_directory)
 nb_classes = len(cg.labels)
-
+tags = cg.labels
 
 print "Loading original inception model"
 
@@ -93,7 +93,7 @@ model.fit_generator(generator = cg.yield_batch(batch_size, "train"),
 			nb_val_samples=len(cg.test_file_names)
 			)
 
-evaluate(model, "000.png")
+# evaluate(model, "000.png")
 
 net.save(model, tags, model_file_prefix)
 
@@ -126,6 +126,6 @@ for i in range(1,11):
 			nb_val_samples=len(cg.test_file_names),
 			)
 
-	evaluate(model, str(i).zfill(3)+".png")
+	# evaluate(model, str(i).zfill(3)+".png")
 
 	net.save(model, tags, model_file_prefix)
