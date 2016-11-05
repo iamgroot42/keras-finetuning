@@ -90,7 +90,7 @@ model.fit_generator(generator = cg.yield_batch(batch_size, "train"),
 			samples_per_epoch=len(cg.train_file_names),
 			nb_epoch=nb_epoch,
 			validation_data=cg.yield_batch(batch_size, "test"),
-			nb_val_samples=len(cg.test_file_names),
+			nb_val_samples=len(cg.test_file_names)
 			)
 
 evaluate(model, "000.png")
