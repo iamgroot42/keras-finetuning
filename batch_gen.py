@@ -80,9 +80,6 @@ class CustomGenerator:
 		X_ = X_.transpose((0, 3, 1, 2))
 		X_ = self.preprocess_input(X_)
 		y_ = np.array(y_)
-		# perm = np.random.permutation(len(y_))
-		# X_ = X_[perm]
-		# y_ = y_[perm]
 		X_ = X_.reshape(X_.shape[0], self.n, self.n, 3)
 		y_ = np_utils.to_categorical(y_, len(self.labels))
 		return X_, y_
@@ -101,7 +98,7 @@ class CustomGenerator:
 					X.append(self.process_image(file))
 					y.append(self.file_name_mapping[file])
 				except Exception, e:
-					print e
+					pass
 				if len(y) == batch_size:
 					X_, y_ = self.model_format(X, y)
 					X = []
@@ -112,6 +109,6 @@ class CustomGenerator:
 if __name__ == "__main__":
 	cg = CustomGenerator(224)
 	cg.ready_data(sys.argv[1])
-	generator = cg.yield_batch(4, "test")
+	generator = cg.yield_batch(4, "train")
 	for x in generator:
 		print x
